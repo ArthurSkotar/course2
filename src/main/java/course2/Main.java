@@ -1,7 +1,6 @@
 package course2;
 
 import java.io.*;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,25 +9,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.Stream;
-
-import javax.swing.text.html.HTMLDocument.Iterator;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        String path="C:\\Users\\Asus\\workspace\\course2\\src\\files\\input\\test.txt";
         List<String>fileList=new LinkedList<>();
         
         try {
-			Files.walk(Paths.get("C:\\Users\\Asus\\workspace\\course2\\src\\files\\input")).forEach(filePath -> {
+			Files.walk(Paths.get("C:\\Users\\Asus\\workspace\\course2\\src\\main\\java\\files\\input")).forEach(filePath -> {
 			    if (Files.isRegularFile(filePath)) {
 			        
 			        fileList.add(filePath.toString());
 			    }
 			});
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (IOException e) {			
 			e.printStackTrace();
 		}
         System.out.println(fileList);
@@ -37,18 +31,15 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-       System.out.println(matcher("00B4"));
     }
-    public static String fileReader(List paths, String encoding) throws IOException {
+    public static String fileReader(List<String> paths, String encoding) throws IOException {
         
     	String result = null;
         BufferedReader bufferedReader;
         Map<String,Map<Character, Integer>> rezF=new TreeMap<>();
         Map<Character,Integer> symb= new TreeMap<>();
-        File file=new File("C:\\Users\\Asus\\workspace\\course2\\src\\files\\output\\out.txt");
+        File file=new File("C:\\Users\\Asus\\workspace\\course2\\src\\main\\java\\files\\output\\out.txt");
       for(int j=0; j<paths.size();j++){
-    	  
-      
     	  bufferedReader=new BufferedReader(new InputStreamReader(new FileInputStream(paths.get(j).toString()),encoding));
         while ((result=bufferedReader.readLine())!=null) {
                 for (int i=0; i<result.length();i++){
@@ -59,8 +50,6 @@ public class Main {
                         symb.put(result.charAt(i),1);
                     }
                 }
-
-
         }
         Path p=Paths.get(paths.get(j).toString());
         rezF.put(p.getFileName().toString(), symb);
@@ -74,12 +63,7 @@ public class Main {
     return result;
 }
     public static void fileWriter(File file,Map<String,Map<Character, Integer>> rezF) throws IOException {
-    	Map<String, String>blankS=new TreeMap<>();
-    	
     	Map <Character,Integer> symb=new TreeMap<>();
-        if (!file.exists()) {
-            file.createNewFile();
-        }
         FileWriter fw = new FileWriter(file.getAbsoluteFile());
         BufferedWriter bw = new BufferedWriter(fw);
         ArrayList<String> keys=new ArrayList<>(rezF.keySet());
@@ -133,16 +117,16 @@ public class Main {
              rez = String.format("%-8s %8s %15s %-25s %n", allKey, allVal ,unicode,desc);
             
             bw.write(rez+"\n");
-
+            System.out.println(rez);
 
         }
         }
-        System.out.println(allSymb);
+        
         bw.close();
     }
     
     public static String matcher(String unicode) throws IOException{
-		BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream("C:\\Users\\Asus\\workspace\\course2\\src\\files\\add\\desc.txt"),"UTF-8"));
+		BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream("C:\\Users\\Asus\\workspace\\course2\\src\\main\\java\\files\\add\\desc.txt"),"UTF-8"));
 		String line=null;
 		StringBuilder sb=null;
 		while((line=br.readLine())!=null){
